@@ -66,7 +66,7 @@ class Model(nn.Module):
         vs = vs.view(N, M, C, -1).mean(3).mean(1)
         es = es.view(N, M, C, -1).mean(3).mean(1)
 
-        info = self.fc(torch.cat([vs, es], dim = 1))
+        info = F.softmax(self.fc(torch.cat([vs, es], dim = 1)), dim = 1)
 
         return info
 
@@ -154,4 +154,4 @@ class DGNN(nn.Module):
 
 if __name__ = '__main__':
     print("Debugging...")
-    model = Model(in_channels = 3, num_class = 400, graph_args = {'layout':'openpose'})
+    model = Model(in_channels = 3, num_class = 400, graph_args = {'layout':'openpose', 'strategy':'spatial'})
